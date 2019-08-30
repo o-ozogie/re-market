@@ -16,14 +16,14 @@ class Mypage(Resource):
         query_select_user_info = 'select tell, name, email, zonecode, address, detailaddress from user where uuid = %s'
         curs.execute(query_select_user_info, identity['uuid'])
         existing_user_info = curs.fetchone()
+        existing_user_info['write_time'] = existing_user_info['write_time'].strftime('%Y-%m-%d:%H:%M:%S')
 
         query_select_item_info = 'select uuid, status, title, main_img, desired_item, write_time ' \
                                  'from item where user = %s order by write_time desc'
         curs.execute(query_select_item_info, identity['uuid'])
-        existing_user_info.update(curs.fetchone())
-        existing_user_info['write_time'] = existing_user_info['write_time'].strftime('%Y-%m-%d:%H:%M:%S')
+        existing_item_info = curs.fetchone()
 
-        return existing_user_info
+        return {'user': existing_user_info, 'item': existing_item_info}
 
     @jwt_required
     def patch(self):
