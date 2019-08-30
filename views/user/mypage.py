@@ -17,7 +17,11 @@ class Mypage(Resource):
         curs.execute(query_select_user_info, identity['uuid'])
         existing_user_info = curs.fetchone()
 
-        query_select_item_info = 'select '
+        query_select_item_info = 'select uuid, status, title, main_img, desired_item, write_time ' \
+                                 'from item where user = %s order by write_time desc'
+        curs.execute(query_select_item_info, identity['uuid'])
+        existing_user_info.update(curs.fetchone())
+        existing_user_info['write_time'] = existing_user_info['write_time'].strftime('%Y-%m-%d:%H:%M:%S')
 
         return existing_user_info
 
@@ -62,3 +66,28 @@ class Mypage(Resource):
 
         conn.commit()
         return {'msg': 'success'}, 200
+
+    @jwt_required
+    def delete(self):
+        identity = get_jwt_identity()
+
+        try:
+            pw = request.json['pw']
+        except KeyError or TypeError:
+            return {'msg': 'value_skipped'}, 400
+
+        query_select_user_info = 'select pw from user where pw = %s'
+        curs.execute(query_select_user_info, pw)
+        existing_password = curs.fetchone()
+
+        if not existing_password:
+            return {'msg': 'invalid_pw'}, 401
+
+        query_delete_user_info = 'delete from user where uuid = %s'
+        curs.execute(query_delete_user_info, identity['uuid'])
+
+        query_delete_item_info = 'delete from item where user = %s'
+        curs.execute(query_delete_item_info, identity['uuid'])
+        conn.commit()
+
+        return {'msg': 'bye'}, 200
