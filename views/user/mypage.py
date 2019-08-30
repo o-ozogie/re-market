@@ -20,10 +20,17 @@ class Mypage(Resource):
         query_select_item_info = 'select uuid, status, title, main_img, desired_item, write_time ' \
                                  'from item where user = %s order by write_time desc'
         curs.execute(query_select_item_info, identity['uuid'])
-        existing_item_info = curs.fetchone()
-        existing_item_info['write_time'] = existing_item_info['write_time'].strftime('%Y-%m-%d:%H:%M:%S')
+        items = curs.fetchall()
 
-        return {'user': existing_user_info, 'item': existing_item_info}
+        item_info = {}
+        
+        cnt = 0
+        for item in items:
+            item['write_time'] = item['write_time'].strftime('%Y-%m-%d:%H:%M:%S')
+            item_info[cnt] = item
+            cnt += 1
+
+        return {'user': existing_user_info, 'item': item_info}
 
     @jwt_required
     def patch(self):
