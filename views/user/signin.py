@@ -27,4 +27,3 @@ class Signin(Resource):
 
         return {'access_token': create_access_token(identity=identity),
                 'refresh_token': create_refresh_token(identity=identity)}, 200
-

@@ -17,7 +17,7 @@ class Upload(Resource):
             main_img = request.json['main_img']
             price = request.json['price']
         except KeyError or TypeError:
-            return {'msg': 'not_json'}, 400
+            return {'msg': 'value_skipped'}, 400
 
         try:
             desired_item = request.json['desired_item']

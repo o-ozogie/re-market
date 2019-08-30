@@ -17,6 +17,8 @@ class Mypage(Resource):
         curs.execute(query_select_user_info, identity['uuid'])
         existing_user_info = curs.fetchone()
 
+        query_select_item_info = 'select '
+
         return existing_user_info
 
     @jwt_required
