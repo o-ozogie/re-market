@@ -17,6 +17,9 @@ class Mainpage(Resource):
         curs.execute(query_select_user_uuid, address)
         users = curs.fetchall()
 
+        if not users:
+            return {'msg': 'not_found'}, 404
+
         refined_info = {}
 
         cnt = 0
