@@ -32,7 +32,7 @@ class Update(Resource):
         except KeyError or TypeError:
             return {'msg': 'value_skipped'}, 400
 
-        query_delete_item_info = 'delete from item where id = %s and where uuid = %s'
+        query_delete_item_info = 'delete from item where user = %s and uuid = %s'
         curs.execute(query_delete_item_info, (identity['uuid'], uuid))
         conn.commit()
 
