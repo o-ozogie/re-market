@@ -16,8 +16,8 @@ class Detail(Resource):
         except KeyError or TypeError:
             return {'msg': 'not_json'}, 406
 
-        query_select_item = 'select title, content, main_img, price, desired_item, write_time ' \
-                            'from item where uuid = %s'
+        query_select_item = 'select user as u, title, content, main_img, price, desired_item, write_time ,' \
+                            ' (select name, tell, zonecode, address from user where uuid = u) from item where uuid = %s'
         curs.execute(query_select_item, item_uuid)
         detail_item = curs.fetchone()
 
