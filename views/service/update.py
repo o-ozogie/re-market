@@ -11,15 +11,14 @@ api = Api(Blueprint(__name__, __name__))
 class Update(Resource):
     @jwt_required
     def patch(self):
-        identity = get_jwt_identity()
-
         try:
+            uuid = request.json['uuid']
             status = request.json['status']
         except KeyError or TypeError:
             return {'msg': 'value_skipped'}, 400
 
-        query_update_item_info = 'update user set status = %s where uuid = %s'
-        curs.execute(query_update_item_info, (status, identity['uuid']))
+        query_update_item_info = 'update item set status = %s where uuid = %s'
+        curs.execute(query_update_item_info, (status, uuid))
         conn.commit()
 
         return {'msg': 'success'}, 200

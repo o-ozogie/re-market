@@ -23,7 +23,7 @@ class Mypage(Resource):
         items = curs.fetchall()
 
         item_info = {}
-        
+
         cnt = 0
         for item in items:
             item['write_time'] = item['write_time'].strftime('%Y-%m-%d:%H:%M:%S')

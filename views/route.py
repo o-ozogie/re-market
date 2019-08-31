@@ -10,7 +10,8 @@ class Route:
         app.register_blueprint(refresh.api.blueprint)
         app.register_blueprint(mypage.api.blueprint)
 
-        from views.service import mainpage, upload, detail
+        from views.service import mainpage, upload, detail, update
         app.register_blueprint(mainpage.api.blueprint)
         app.register_blueprint(upload.api.blueprint)
         app.register_blueprint(detail.api.blueprint)
+        app.register_blueprint(update.api.blueprint)
