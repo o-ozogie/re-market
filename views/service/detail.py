@@ -14,9 +14,9 @@ class Detail(Resource):
         try:
             item_uuid = request.args['uuid']
         except KeyError or TypeError:
-            return {'msg': 'not_json'}, 406
+            return {'msg': 'value_skipped'}, 400
 
-        query_select_item = 'select user as u, title, content, main_img, price, desired_item, write_time ,' \
+        query_select_item = 'select user as u, title, content, cate, main_img, price, desired_item, write_time ,' \
                             ' (select name, tell, zonecode, address from user where uuid = u) from item where uuid = %s'
         curs.execute(query_select_item, item_uuid)
         detail_item = curs.fetchone()

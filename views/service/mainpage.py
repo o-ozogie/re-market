@@ -24,7 +24,7 @@ class Mainpage(Resource):
 
         cnt = 0
         for user in users:
-            query_select_item_info = 'select uuid, status, title, main_img, price, desired_item, write_time ' \
+            query_select_item_info = 'select uuid, status, cate, title, main_img, price, desired_item, write_time ' \
                                      'from item where user = %s order by write_time desc'
 
             curs.execute(query_select_item_info, user['uuid'])

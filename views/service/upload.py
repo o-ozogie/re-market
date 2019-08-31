@@ -16,6 +16,7 @@ class Upload(Resource):
             content = request.json['content']
             main_img = request.json['main_img']
             price = request.json['price']
+            cate = request.json['cate']
         except KeyError or TypeError:
             return {'msg': 'value_skipped'}, 400
 
@@ -26,9 +27,9 @@ class Upload(Resource):
 
         identity = get_jwt_identity()
 
-        query_insert_item = 'insert into item (user, title, content, main_img, price, desired_item, write_time)' \
-                            ' values (%s, %s, %s, %s, %s, %s, now())'
-        curs.execute(query_insert_item, (identity['uuid'], title, content, main_img, price, desired_item))
+        query_insert_item = 'insert into item (user, title, content, cate, main_img, price, desired_item, write_time)' \
+                            ' values (%s, %s, %s, %s, %s, %s, %s, now())'
+        curs.execute(query_insert_item, (identity['uuid'], title, content, cate, main_img, price, desired_item))
         conn.commit()
 
         return {'msg': 'success'}, 200

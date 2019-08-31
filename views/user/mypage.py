@@ -17,7 +17,7 @@ class Mypage(Resource):
         curs.execute(query_select_user_info, identity['uuid'])
         existing_user_info = curs.fetchone()
 
-        query_select_item_info = 'select uuid, status, title, main_img, desired_item, write_time ' \
+        query_select_item_info = 'select uuid, status, cate, title, main_img, desired_item, write_time ' \
                                  'from item where user = %s order by write_time desc'
         curs.execute(query_select_item_info, identity['uuid'])
         items = curs.fetchall()
